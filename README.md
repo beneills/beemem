@@ -34,3 +34,14 @@ Now, make sure that you've logged in to Memrise recently using Chromium (we stea
 ```shell
 beemem.rb
 ```
+
+TODO
+----
+
+* Separate cookie magic into new gem (this might be really useful for people interacting with non-API secure pages).
+
+* Support Firefox
+
+* More CLI verbosity
+
+* Allow update of individual goals
