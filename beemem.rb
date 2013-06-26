@@ -8,7 +8,7 @@ require 'beeminder'
 require 'cookie_extractor'
 
 
-def perform(b_slug, m_url)
+def perform(b_slug, m_url, config)
   # extract cookies from browser, save to Netscape type file
   cookie_filename = File.expand_path("~/.config/chromium/Default/Cookies")
   netscape_file = Tempfile.new("cookies")
@@ -21,7 +21,7 @@ def perform(b_slug, m_url)
 
   # wget the page
   wget_file = Tempfile.new("wget")
-  wget_cmd = "wget --load-cookies #{netscape_file.path} -O #{wget_file.path} #{m_url}"
+  wget_cmd = "wget --quiet --load-cookies #{netscape_file.path} -O #{wget_file.path} #{m_url}"
   system wget_cmd
 
   # regex out the useful data
@@ -36,6 +36,7 @@ def perform(b_slug, m_url)
   dp = Beeminder::Datapoint.new("timestamp" => Time.now.to_i,
                                 "value" => value,
                                 "comment" => "added by beem.rb")
+  
   g.add dp
 
 
@@ -53,5 +54,5 @@ config = YAML.load File.open("#{Dir.home}/.beeminderrc")
 # perform each goal
 for b_slug, m_url in config['memrise-goals'] do
   puts "Performing goal #{b_slug}"
-  perform(b_slug, m_url)
+  perform(b_slug, m_url, config)
 end
