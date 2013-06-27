@@ -44,7 +44,7 @@ def perform(b_slug, m_url, token, cookie_path)
                                 "value" => value,
                                 "comment" => "added by beem.rb")
   
-#  g.add dp
+  g.add dp
 
 
   # close tmpfiles
