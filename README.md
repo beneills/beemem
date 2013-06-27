@@ -13,10 +13,18 @@ Put something like this into ~/.beeminderrc:
 
 ```yaml
  ---
-token: my_token_from_beeminder->your_account->settings
+# Get your token via https://www.beeminder.com/api/v1/auth_token.json
+token: my_beeminder_token
 
+# Choose one from ['chrome', 'chromium', 'firefox']
+# You *must* be already logged in to Memrise using 'Remember Password'
+#   feature for this to work
+memrise-browser: chromium
+
+# This one is obvious...
 memrise-goals:
   'beeminder_slug': 'memrise_course_url'
+  'another_beeminder_slug': 'another_memrise_course_url'
 ```
 
 *e.g. slug = 'memrise-intermediate-harvest-backlog' and url = 'http://www.memrise.com/course/845/intermediate-french-2/'*
@@ -39,8 +47,6 @@ TODO
 ----
 
 * Separate cookie magic into new gem (this might be really useful for people interacting with non-API secure pages).
-
-* Support Firefox
 
 * More CLI verbosity
 
