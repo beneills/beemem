@@ -48,6 +48,3 @@ TODO
 
 * Separate cookie magic into new gem (this might be really useful for people interacting with non-API secure pages).
 
-* More CLI verbosity
-
-* Allow update of individual goals

@@ -16,6 +16,8 @@ $cookie_locations = {
 
 
 def perform(b_slug, m_url, token, cookie_path)
+  puts "Performing goal #{b_slug}"
+
   # extract cookies from browser, save to Netscape type file
   cookie_filename = File.expand_path(cookie_path)
   netscape_file = Tempfile.new("cookies")
@@ -54,20 +56,44 @@ def perform(b_slug, m_url, token, cookie_path)
   puts "done."
 end
 
-def main
+def main(slug=nil)
   # get config
   config = YAML.load File.open("#{Dir.home}/.beeminderrc")
 
   cookie_path = $cookie_locations[config['memrise-browser']]
 
-  # perform each goal
-  for b_slug, m_url in config['memrise-goals'] do
-    puts "Performing goal #{b_slug}"
-    perform(b_slug, m_url, config['token'], cookie_path)
+  if config['memrise-goals'].keys.include? slug
+    perform(slug, config['memrise-goals'][slug], config['token'], cookie_path)
+  elsif slug == nil
+    puts "Performing all goals"
+    # perform each goal
+    for b_slug, m_url in config['memrise-goals'] do
+      perform(b_slug, m_url, config['token'], cookie_path)
+    end
+  else
+    puts "Invalid slug name!  Choose from: #{config['memrise-goals'].keys.join(', ')}"
+    usage
+    exit 1
   end
 end
 
-main
+def usage
+  puts "Usage: $0 [goal_slug]"
+  puts "See README: https://github.com/beneills/beemem"
+end
+
+
+if ARGV.length == 0
+  main
+elsif ARGV.length == 1 and ['--help', '-h'].include? ARGV.first
+  usage
+  exit 0
+elsif ARGV.length == 1
+  main(ARGV.first)
+else
+  usage
+  exit 1
+end
 
 
 
